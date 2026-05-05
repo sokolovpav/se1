@@ -1,19 +1,20 @@
 info:
-  name: Login
+  name: Create List
   type: http
-  seq: 2
+  seq: 4
 
 http:
   method: POST
-  url: "{{hostUrl}}/auth/login"
+  url: "{{hostUrl}}/lists"
   body:
     type: json
     data: |-
       {
-        "email": "123@123.ru",
-        "password": "123"
+        "name": "New List"
       }
-  auth: inherit
+  auth:
+    type: bearer
+    token: "{{token}}"
 
 settings:
   encodeUrl: true

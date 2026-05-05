@@ -1,0 +1,28 @@
+info:
+  name: Update List
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{hostUrl}}/lists/3"
+  params:
+    - name: id
+      value: "3"
+      type: query
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "name": "New List Rename"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,22 @@
+info:
+  name: Delete List
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{hostUrl}}/lists/4"
+  params:
+    - name: id
+      value: "3"
+      type: query
+      disabled: true
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
