@@ -1,0 +1,4 @@
+name: se1
+variables:
+  - name: hostUrl
+    value: http://localhost:3000/api
