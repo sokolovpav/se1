@@ -1,0 +1,23 @@
+info:
+  name: Update Item (is_purchased)
+  type: http
+  seq: 10
+
+http:
+  method: PUT
+  url: "{{hostUrl}}/items/4"
+  body:
+    type: json
+    data: |-
+      {
+        "is_purchased": 1
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

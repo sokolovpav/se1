@@ -1,0 +1,25 @@
+info:
+  name: Update Item (All Fields)
+  type: http
+  seq: 9
+
+http:
+  method: PUT
+  url: "{{hostUrl}}/items/4"
+  body:
+    type: json
+    data: |-
+      {
+        "is_purchased": 0,
+        "name": "Meet",
+        "quantity": 2
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

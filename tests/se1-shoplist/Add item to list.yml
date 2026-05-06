@@ -1,0 +1,25 @@
+info:
+  name: Add item to list
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{hostUrl}}/items"
+  body:
+    type: json
+    data: |-
+      {
+        "shopping_list_id": 1,
+        "name": "Meet",
+        "quantity": 2
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

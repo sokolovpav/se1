@@ -14,9 +14,11 @@ app.use(express.json());
 // Routes
 const authRoutes = require('./routes/auth');
 const listRoutes = require('./routes/lists');
+const itemRoutes = require('./routes/items');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/lists', listRoutes);
+app.use('/api/items', itemRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

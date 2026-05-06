@@ -1,0 +1,17 @@
+info:
+  name: Delete Item
+  type: http
+  seq: 11
+
+http:
+  method: PUT
+  url: "{{hostUrl}}/items/4"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
