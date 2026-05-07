@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Shopping Lists</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Section -->
+        <div id="authSection" class="auth-section">
+            <div class="auth-container">
+                <h2>Welcome!</h2>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="register">Register</button>
+                </div>
+                
+                <div id="loginForm" class="auth-form active">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button id="loginBtn">Enter</button>
+                    <div class="error-message" id="loginError"></div>
+                </div>
+                
+                <div id="registerForm" class="auth-form">
+                    <input type="email" id="registerEmail" placeholder="Email" required>
+                    <input type="password" id="registerPassword" placeholder="Password" required>
+                    <button id="registerBtn">Enter</button>
+                    <div class="error-message" id="registerError"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Section -->
+        <div id="mainApp" style="display: none;">
+            <div class="app-header">
+                <h1>     Shopping Lists</h1>
+                <div class="user-info">
+                    <span id="userEmail"></span>
+                    <button id="logoutBtn" class="logout-btn">Logout</button>
+                </div>
+            </div>
+
+            <div class="app-content">
+                <!-- Sidebar with lists -->
+                <div class="sidebar">
+                    <div class="create-list">
+                        <input type="text" id="newListName" placeholder="List name">
+                        <button id="createListBtn">Create a list</button>
+                    </div>
+                    <div class="lists-container">
+                        <h3>My lists</h3>
+                        <div id="ownedLists" class="lists"></div>
+                        <h3>Lists shared with me</h3>
+                        <div id="sharedLists" class="lists"></div>
+                    </div>
+                </div>
+
+                <!-- Main content with selected list -->
+                <div class="main-content">
+                    <div id="selectedListInfo" class="list-info"></div>
+                    <div id="listItems" class="list-items"></div>
+                    <div id="addItemSection" class="add-item-section">
+                        <input type="text" id="newItemName" placeholder="Item name">
+                        <input type="text" id="newItemQuantity" placeholder="Amount" value="1">
+                        <button id="addItemBtn">Add</button>
+                    </div>
+                    <div id="shareSection" class="share-section">
+                        <h3>Share the list</h3>
+                        <div class="share-controls">
+                            <input type="email" id="shareEmail" placeholder="User's email">
+                            <label>
+                                <input type="checkbox" id="shareCanEdit"> Can edit?
+                            </label>
+                            <button id="shareBtn">Share</button>
+                        </div>
+                        <div id="sharedUsersList" class="shared-users"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
