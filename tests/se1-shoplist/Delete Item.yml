@@ -4,7 +4,7 @@ info:
   seq: 11
 
 http:
-  method: PUT
+  method: DELETE
   url: "{{hostUrl}}/items/4"
   auth:
     type: bearer

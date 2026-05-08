@@ -15,10 +15,12 @@ app.use(express.json());
 const authRoutes = require('./routes/auth');
 const listRoutes = require('./routes/lists');
 const itemRoutes = require('./routes/items');
+const shareRoutes = require('./routes/share');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/lists', listRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/share', shareRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
