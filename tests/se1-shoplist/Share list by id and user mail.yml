@@ -1,0 +1,25 @@
+info:
+  name: Share list by id and user mail
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{hostUrl}}/share"
+  body:
+    type: json
+    data: |-
+      {
+        "shopping_list_id": 1,
+        "email": "pavel@example.com",
+        "can_edit": 1
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

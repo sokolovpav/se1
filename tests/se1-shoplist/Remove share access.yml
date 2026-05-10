@@ -1,0 +1,17 @@
+info:
+  name: Remove share access
+  type: http
+  seq: 14
+
+http:
+  method: DELETE
+  url: "{{hostUrl}}/share/1/2"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
