@@ -147,7 +147,7 @@ function createListElement(list, role) {
 }
 
 window.editList = async function(listId, currentName) {
-    const newName = prompt('Введите новое название списка:', currentName);
+    const newName = prompt('Enter a list name:', currentName);
     if (newName && newName !== currentName) {
         try {
             await apiCall(`/lists/${listId}`, {
@@ -159,13 +159,13 @@ window.editList = async function(listId, currentName) {
                 await loadListItems(listId);
             }
         } catch (error) {
-            alert('Ошибка при редактировании списка: ' + error.message);
+            alert('Error while editing the list: ' + error.message);
         }
     }
 };
 
 window.deleteList = async function(listId) {
-    if (confirm('Вы уверены, что хотите удалить этот список?')) {
+    if (confirm('Do you really want to delete the list?')) {
         try {
             await apiCall(`/lists/${listId}`, { method: 'DELETE' });
             if (currentListId === listId) {
@@ -176,7 +176,7 @@ window.deleteList = async function(listId) {
             }
             await loadLists();
         } catch (error) {
-            alert('Ошибка при удалении списка: ' + error.message);
+            alert('Error while deleting the list: ' + error.message);
         }
     }
 };
@@ -190,7 +190,7 @@ async function createList(name) {
         await loadLists();
         document.getElementById('newListName').value = '';
     } catch (error) {
-        alert('Ошибка при создании списка: ' + error.message);
+        alert('Error while creating the list: ' + error.message);
     }
 }
 
@@ -250,7 +250,7 @@ function displayItems(items) {
     container.innerHTML = '';
     
     if (items.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #718096;">Список пуст. Добавьте продукты!</p>';
+        container.innerHTML = '<p style="text-align: center; color: #718096;">The list is empty. Add some items!</p>';
         return;
     }
     
@@ -279,7 +279,7 @@ window.togglePurchased = async function(itemId, isPurchased) {
         });
         await loadListItems(currentListId);
     } catch (error) {
-        alert('Ошибка при обновлении статуса: ' + error.message);
+        alert('Error while updating item status: ' + error.message);
     }
 };
 
@@ -311,18 +311,18 @@ window.editItem = async function(itemId, currentName, currentQuantity) {
     `;
     
     dialog.innerHTML = `
-        <h3 style="margin-bottom: 20px;">Редактировать продукт</h3>
+        <h3 style="margin-bottom: 20px;">Edit item</h3>
         <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Название:</label>
+            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Name:</label>
             <input type="text" id="editItemName" value="${escapeHtml(currentName)}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
         </div>
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Количество:</label>
+            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Amount:</label>
             <input type="text" id="editItemQuantity" value="${escapeHtml(currentQuantity)}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
         </div>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button id="cancelEditBtn" style="padding: 8px 16px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer;">Отмена</button>
-            <button id="saveEditBtn" style="padding: 8px 16px; background: #4299e1; color: white; border: none; border-radius: 5px; cursor: pointer;">Сохранить</button>
+            <button id="cancelEditBtn" style="padding: 8px 16px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+            <button id="saveEditBtn" style="padding: 8px 16px; background: #4299e1; color: white; border: none; border-radius: 5px; cursor: pointer;">Save</button>
         </div>
     `;
     
@@ -340,7 +340,7 @@ window.editItem = async function(itemId, currentName, currentQuantity) {
         const newQuantity = quantityInput.value.trim();
         
         if (!newName) {
-            alert('Название не может быть пустым');
+            alert('Name cannot be empty');
             return;
         }
         
@@ -356,7 +356,7 @@ window.editItem = async function(itemId, currentName, currentQuantity) {
             await loadListItems(currentListId);
             modal.remove();
         } catch (error) {
-            alert('Ошибка при редактировании: ' + error.message);
+            alert('Error while editing: ' + error.message);
         }
     };
     
@@ -380,19 +380,19 @@ window.editItem = async function(itemId, currentName, currentQuantity) {
 };
 
 window.deleteItem = async function(itemId) {
-    if (confirm('Вы уверены, что хотите удалить этот продукт?')) {
+    if (confirm('Do you really want to delete this item?')) {
         try {
             await apiCall(`/items/${itemId}`, { method: 'DELETE' });
             await loadListItems(currentListId);
         } catch (error) {
-            alert('Ошибка при удалении: ' + error.message);
+            alert('Error while deleting the item: ' + error.message);
         }
     }
 };
 
 async function addItem(name, quantity) {
     if (!name.trim()) {
-        alert('Введите название продукта');
+        alert('Enter item name');
         return;
     }
     
@@ -409,14 +409,14 @@ async function addItem(name, quantity) {
         document.getElementById('newItemName').value = '';
         document.getElementById('newItemQuantity').value = '1';
     } catch (error) {
-        alert('Ошибка при добавлении продукта: ' + error.message);
+        alert('Error while adding the item: ' + error.message);
     }
 }
 
 // Share functions
 async function shareList(email, canEdit) {
     if (!email.trim()) {
-        alert('Введите email пользователя');
+        alert('Enter a user email');
         return;
     }
     
@@ -432,9 +432,9 @@ async function shareList(email, canEdit) {
         await loadSharedUsers(currentListId);
         document.getElementById('shareEmail').value = '';
         document.getElementById('shareCanEdit').checked = false;
-        alert('Список успешно поделен!');
+        alert('List successfully shared!');
     } catch (error) {
-        alert('Ошибка: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 
@@ -452,7 +452,7 @@ function displaySharedUsers(users) {
     container.innerHTML = '';
     
     if (users.length === 0) {
-        container.innerHTML = '<p style="color: #718096;">Список ни с кем не поделен</p>';
+        container.innerHTML = '<p style="color: #718096;">The list isn\'t shared with anyone.</p>';
         return;
     }
     
@@ -460,21 +460,21 @@ function displaySharedUsers(users) {
         const div = document.createElement('div');
         div.className = 'shared-user-item';
         div.innerHTML = `
-            <span>${escapeHtml(share.email)} ${share.can_edit ? '(может редактировать)' : '(только просмотр)'}</span>
-            <button class="remove-share-btn" onclick="removeShare(${share.shared_with_user_id})">Удалить доступ</button>
+            <span>${escapeHtml(share.email)} ${share.can_edit ? '(can edit)' : '(view-only)'}</span>
+            <button class="remove-share-btn" onclick="removeShare(${share.shared_with_user_id})">Revoke access</button>
         `;
         container.appendChild(div);
     });
 }
 
 window.removeShare = async function(userId) {
-    if (confirm('Удалить доступ пользователя к этому списку?')) {
+    if (confirm('Revoke the list access from the user?')) {
         try {
             await apiCall(`/share/${currentListId}/${userId}`, { method: 'DELETE' });
             await loadSharedUsers(currentListId);
-            alert('Доступ удален');
+            alert('Access revoked');
         } catch (error) {
-            alert('Ошибка: ' + error.message);
+            alert('Error: ' + error.message);
         }
     }
 };
