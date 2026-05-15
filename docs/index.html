@@ -541,11 +541,7 @@
 
     <h3>Login &amp; Registration</h3>
     <p>
-      When you first open the application you will be presented with a combined
-      login / registration screen. Enter your email and password to sign in, or
-      switch to the <strong>Register</strong> tab to create a new account.
-      No confirmation email is required, and passwords are stored as bcrypt hashes —
-      your plaintext password is never persisted.
+      As you open the app, you will be met with a login/registration screen. It prompts the user to enter a login and a password to log in, or to switch to the <strong>Register</strong> mode to register. Once the user registers, they would be able to login using the same email and password. There are no confirmation emails, and the passwords are stored in hash to prevent basic security issues.
     </p>
 
     <img src="login-page.webp" alt="Login and registration screen" class="doc-img" />
@@ -564,41 +560,36 @@
         login screen.
       </li>
       <li>
-        <strong>List creation field.</strong> Type a name and click <em>Create a list</em>
-        (or press <kbd>Enter</kbd>) to create a new shopping list.
+        <strong>List creation field.</strong> The user can enter a name of a new list. By then clicking the “Create a list” button underneath, the user would be able to create a list of that name. 
       </li>
       <li>
-        <strong>Your lists.</strong> All lists you own. Click a list to open it; use the
-        <strong>✏️</strong> button to rename it or <strong>🗑️</strong> to delete it permanently.
+        <strong>Your lists.</strong> All lists you own. Click a list to open it; use the <strong>✏️</strong> button to rename it or <strong>🗑️</strong> to delete it permanently.
       </li>
       <li>
-        <strong>Lists shared with me.</strong> Lists other users have shared with you.
-        Click a list to view it (editing access depends on the permission granted by the owner).
+        <strong>Lists shared with me.</strong> Lists other users have shared with you. Click a list to view it (editing access depends on the permission granted by the owner).
       </li>
       <li>
-        <strong>Items in the selected list.</strong> Toggle an item's purchased status with its
-        checkbox, edit name/quantity with <strong>✏️</strong>, or remove it with <strong>🗑️</strong>.
+        <strong>Items in the selected list.</strong> The user can change the status of the item by clicking the checkbox on the left, edit the name and amount of the item by clicking the <strong>✏️</strong>, button, and deleting the item off the list with <strong>🗑️</strong>.
         Purchased items are visually struck through.
       </li>
       <li>
-        <strong>Item creation field.</strong> Enter a name and an optional quantity (free text —
-        e.g. <em>"1 kg"</em>, <em>"a dozen"</em>). Click <em>Add</em> or press <kbd>Enter</kbd>.
+        <strong>Item creation field.</strong> Enter a name and an optional quantity (free text is used instead of numeric values, supporting amounts like <em>"1 kg"</em>, <em>"a dozen"</em>, etc). Click <em>Add</em> or press <kbd>Enter</kbd>.
         This section is hidden when viewing a shared list without edit access.
       </li>
       <li>
         <strong>List sharing field.</strong> Enter another user's email address, optionally check
-        <em>Can edit?</em>, and click <em>Share</em>. The field is hidden for shared lists
-        (only owners can share).
+        <em>Can edit?</em>, and click <em>Share</em>. The section is hidden for shared lists
+        (only owners can see the section).
       </li>
       <li>
         <strong>Users with access.</strong> Lists every collaborator and their permission level.
-        Click <em>Revoke access</em> to remove a user. Hidden when viewing a shared list.
+        Click <em>Revoke access</em> to remove a user. The section is hidden for shared lists (only owners can see the section).
       </li>
     </ol>
 
     <h3>Error Notifications</h3>
     <p>
-      Disallowed operations — such as sharing a list with its own owner — trigger a
+      Both errors and disallowed operations (such as sharing a list with its own owner) — trigger a
       standard browser alert notification.
     </p>
     <img src="notification.webp" alt="Browser error notification" class="doc-img" style="max-width:420px;" />
