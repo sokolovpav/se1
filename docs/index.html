@@ -507,6 +507,7 @@
     <div class="nav-section-label">Project</div>
     <a href="#user-stories">User Stories</a>
     <a href="#kernel">Kernel Analysis</a>
+	<a href="#feasibility">Feasibility Analysis</a>
   </nav>
 </aside>
 
@@ -1314,10 +1315,113 @@
     <div class="callout" style="margin-top:24px;">
       <strong>Note:</strong> Issues reflected in this Kernel Analysis are primarily due to the application not being sufficiently developed at the time of writing.
       <br><br>
-      <strong>AI Usage:</strong> No generative AI was used in the project. Grammarly was used to check for spelling mistakes.
+      <strong>AI Usage:</strong> No generative AI was used in the analysis Grammarly was used to check for spelling mistakes.
     </div>
   </section>
 
+<!-- ══════════════════════════════════════════
+       FEASIBILITY ANALYSIS
+  ══════════════════════════════════════════ -->
+  <div class="anchor" id="feasibility"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Project</div>
+    <h2>Project Feasibility Analysis</h2>
+
+    <!-- 1. Executive Summary -->
+    <h3>1. Executive Summary</h3>
+    <p><strong>Concept:</strong> a cloud-based service for creating shared shopping lists that can be shared among family members or group members.</p>
+    <p><strong>Problem:</strong> existing note-taking and list-making apps (such as Google Keep and Reminders) do not offer a convenient way to track who has bought what, provide status updates, or enable collaborative editing.</p>
+    <p><strong>Solution:</strong> a minimalist MVP with shared lists, purchase check-off, invitation-only access.</p>
+
+    <!-- 2. Solution Description -->
+    <h3>2. Solution Description (MVP)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Value to User</th><th>Build Effort</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Creating and editing a list</td><td>Basic purchasing management</td><td>Low</td><td>Must</td></tr>
+          <tr><td>Invitation by email</td><td>Shared use</td><td>Medium</td><td>Must</td></tr>
+          <tr><td>'Bought' mark</td><td>Transparency: who bought what</td><td>Medium</td><td>Must</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. Technology Evaluation -->
+    <h3>3. Technology Evaluation</h3>
+    <p><strong>Recommendation — Option A (MySQL + React + Node.js):</strong> The MVP requires a rapid time-to-market, and as the team already has experience working with this tech stack, this will enable the project to be delivered on schedule.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Option</th><th>Pros</th><th>Cons</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A: MySQL + React + Node.js</strong> (recommended)</td><td>Quick start, low-cost</td><td>The architecture is a little more complicated</td></tr>
+          <tr><td>B: Django + MySQL</td><td>Full control, flexibility, security</td><td>Deep knowledge of the framework is required</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. Market & User Analysis -->
+    <h3>4. Market &amp; User Analysis</h3>
+    <p><strong>Target segments:</strong></p>
+    <ul>
+      <li><strong>Families with children (2–5 people)</strong> — spend €200–600 per month on groceries and want to save time.</li>
+      <li><strong>People living together (students, couples)</strong> — share a budget and shopping responsibilities.</li>
+      <li><strong>Event and excursion organisers.</strong></li>
+    </ul>
+    <p><strong>User Journey:</strong> Registration → Create list → Add items → Invite participant → Participant marks 'purchased' → Participants can track the status of their purchases.</p>
+
+    <!-- 5. Go-to-Market Strategy -->
+    <h3>5. Go-to-Market Strategy</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Channel</th><th>Action</th><th>Expected Impact</th></tr></thead>
+        <tbody>
+          <tr><td>Student WhatsApp groups</td><td>Post: 'How not to forget to buy the groceries you need'</td><td>100+ installations</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Promo: The first 200 families get three months free.</p>
+
+    <!-- 6. Team & Organisation -->
+    <h3>6. Team &amp; Organisation (5 weeks)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Count</th><th>Skill Level</th></tr></thead>
+        <tbody>
+          <tr><td>Full-stack Developer (React/Node.js)</td><td>1</td><td>Junior</td></tr>
+          <tr><td>Full-stack Developer (React/Node.js)</td><td>1</td><td>Middle</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 7. Project Roadmap -->
+    <h3>7. Project Roadmap</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Week</th><th>Phase</th><th>Decision Gate</th></tr></thead>
+        <tbody>
+          <tr><td>1–2</td><td>Planning — prototype, user stories, EER diagrams</td><td>Gate 1: The UI prototype and database structure have been approved.</td></tr>
+          <tr><td>3</td><td>Build — Logging in to the service and creating shopping lists</td><td>Gate 2: the ability to create a new account and make a shopping list.</td></tr>
+          <tr><td>4</td><td>Build — Shared access to the shopping lists and status tracking</td><td>Gate 3: The app has full functionality.</td></tr>
+          <tr><td>5</td><td>Testing — security</td><td>Gate 4: The test involving five families has been passed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 9. Recommendation & Risk -->
+    <h3>9. Recommendation &amp; Risk</h3>
+    <p><strong>Conclusion</strong> — It is technically feasible, there is a market for it, and the initial budget is minimal. It is recommended that the MVP be launched within three months.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Risk</th><th>Probability</th><th>Impact</th><th>Countermeasure</th></tr></thead>
+        <tbody>
+          <tr><td>Low viral growth</td><td>High</td><td>High</td><td>Add 'Invite a friend – get a month's Premium membership'</td></tr>
+          <tr><td>Users are not upgrading to a paid plan</td><td>Medium</td><td>Medium</td><td>Freemium: 2 lists for free → unlimited for €2</td></tr>
+          <tr><td>Competition from note-taking apps</td><td>Low</td><td>Medium</td><td>Focus on the shopping list, with further expansion of specific functionality</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+	
 </main>
 
 <!-- ── Active nav highlight on scroll ── -->
