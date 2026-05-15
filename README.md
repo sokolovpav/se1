@@ -38,6 +38,13 @@ npm install
  
 # Configure environment variables
 cp .env.example .env # Edit .env with your database credentials and JWT secret
+
+# Set up the database
+# 1. Create a new database (e.g., 'service_se1')
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS service_se1"
+
+# 2. Import the database schema and structure
+mysql -u root -p service_se1 < ../db/db.sql
  
 # Start the server
 npm run dev
