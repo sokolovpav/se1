@@ -1,9 +1,1357 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SE1 Doc</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shared Shopping Lists — Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:        #1a6dc2;
+      --blue-dark:   #145499;
+      --blue-light:  #e8f0fb;
+      --accent:      #f0a500;
+      --text:        #212529;
+      --text-muted:  #6c757d;
+      --border:      #dee2e6;
+      --bg:          #f8f9fa;
+      --bg-white:    #ffffff;
+      --sidebar-w:   270px;
+      --code-bg:     #f4f4f5;
+      --radius:      6px;
+      --shadow:      0 1px 4px rgba(0,0,0,.10);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: #1b2332;
+      color: #c9d3e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 28px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .sidebar-header .project-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #7a8fa8;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-header .project-title {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #e8eef6;
+      line-height: 1.35;
+    }
+
+    .sidebar-header .project-subtitle {
+      font-size: 12px;
+      color: #7a8fa8;
+      margin-top: 4px;
+    }
+
+    nav { padding: 12px 0 32px; }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: #4d6280;
+      padding: 16px 20px 6px;
+    }
+
+    nav a {
+      display: block;
+      padding: 7px 20px;
+      font-size: 13.5px;
+      color: #9aaec4;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color .15s, background .15s, border-color .15s;
+      line-height: 1.4;
+    }
+
+    nav a:hover {
+      color: #e8eef6;
+      background: rgba(255,255,255,.05);
+    }
+
+    nav a.active {
+      color: #ffffff;
+      border-left-color: var(--accent);
+      background: rgba(240,165,0,.08);
+    }
+
+    nav a.sub {
+      padding-left: 36px;
+      font-size: 13px;
+    }
+
+    /* ── Main Content ── */
+    #main {
+      flex: 1;
+      min-width: 0;
+      padding: 0 0 80px;
+    }
+
+    /* ── Page Header ── */
+    .page-hero {
+      background: linear-gradient(135deg, #1b2332 0%, #1a6dc2 100%);
+      color: white;
+      padding: 56px 64px 48px;
+    }
+
+    .page-hero .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 14px;
+    }
+
+    .page-hero h1 {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .page-hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,.75);
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.85);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Section Containers ── */
+    .doc-section {
+      padding: 52px 64px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-white);
+    }
+
+    .doc-section:nth-child(even) { background: var(--bg); }
+
+    .doc-section .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    /* ── Typography ── */
+    h2 {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1b2332;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1b2332;
+      margin: 32px 0 12px;
+    }
+
+    h3:first-child { margin-top: 0; }
+
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 24px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    p { margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    strong { font-weight: 600; }
+
+    ul, ol {
+      margin: 10px 0 16px 24px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    /* ── Code ── */
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 6px;
+      color: #c7254e;
+    }
+
+    pre {
+      background: #1e2531;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      border: 1px solid #2d3748;
+    }
+
+    pre code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      background: none;
+      border: none;
+      padding: 0;
+      color: #a8c2e0;
+      line-height: 1.7;
+    }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead { background: #1b2332; }
+
+    thead th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #c9d3e0;
+      white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--blue-light); }
+
+    tbody td {
+      padding: 10px 16px;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    tbody td:first-child { color: #c7254e; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; }
+
+    /* ── Images ── */
+    .doc-img {
+      display: block;
+      max-width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      margin: 20px 0;
+    }
+
+    .img-caption {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: -12px;
+      margin-bottom: 24px;
+    }
+
+    .img-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .img-row .img-block {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .img-row .img-block img { width: 100%; }
+
+    /* ── Callout / Info box ── */
+    .callout {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    /* ── Kernel cards ── */
+    .kernel-alpha {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .kernel-alpha-header {
+      background: #1b2332;
+      color: #e8eef6;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kernel-alpha-header .progress-pill {
+      background: rgba(240,165,0,.2);
+      border: 1px solid rgba(240,165,0,.4);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .kernel-alpha-body { padding: 20px; }
+
+    .kernel-state {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .kernel-state:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .kernel-state h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--blue);
+      font-size: 13px;
+    }
+
+    .kernel-state ul { margin-bottom: 0; }
+
+    .stopped-notice {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      color: #795548;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* ── File tree ── */
+    .file-tree {
+      background: #1e2531;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      line-height: 2;
+      color: #a8c2e0;
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      border: 1px solid #2d3748;
+    }
+
+    .file-tree .dir  { color: #79b8ff; }
+    .file-tree .file { color: #85e89d; }
+    .file-tree .note { color: #6a737d; }
+
+    /* ── Permission tiers ── */
+    .perm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0 24px;
+    }
+
+    .perm-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--bg-white);
+    }
+
+    .perm-card .perm-title {
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 8px;
+    }
+
+    .perm-card.owner .perm-title { color: #c7254e; }
+    .perm-card.editor .perm-title { color: var(--blue); }
+    .perm-card.viewer .perm-title { color: #5a8a5a; }
+
+    .perm-card ul { margin: 0 0 0 16px; font-size: 13px; }
+
+    /* ── Scrollbar ── */
+    #sidebar::-webkit-scrollbar { width: 5px; }
+    #sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 3px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      #sidebar { width: 100%; height: auto; min-height: auto; position: relative; }
+      .doc-section, .page-hero { padding: 32px 24px; }
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(to right, var(--blue) 0%, var(--blue-light) 100%);
+      margin: 0;
+    }
+
+    /* ── Sub-section tabs ── */
+    .subsection-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Anchor offset for sticky header ── */
+    .anchor { display: block; position: relative; top: -20px; visibility: hidden; }
+
+  </style>
 </head>
 <body>
-    <h1>Test page</h1>
+
+<!-- ════════════════════════════════════════════ SIDEBAR ════════════════════════════════════════════ -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div class="project-label">Documentation</div>
+    <div class="project-title">Shared Shopping Lists</div>
+    <div class="project-subtitle">Web Application</div>
+  </div>
+
+  <nav id="sidenav">
+    <a href="#user-guide">User Guide</a>
+
+    <div class="nav-section-label">Development Documentation</div>
+    <a href="#dev-frontend">Frontend</a>
+    <a href="#dev-backend">Backend</a>
+    <a href="#dev-database">Database</a>
+    <a href="#dev-environment">Development Environment</a>
+
+    <div class="nav-section-label">Project</div>
+    <a href="#user-stories">User Stories</a>
+    <a href="#kernel">Kernel Analysis</a>
+  </nav>
+</aside>
+
+<!-- ════════════════════════════════════════════ MAIN ════════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- ── Hero ── -->
+  <div class="page-hero">
+    <div class="label">Project Documentation</div>
+    <h1>Shared Shopping Lists</h1>
+    <p>A collaborative web application for creating, managing, and sharing grocery lists across devices and users.</p>
+    <div class="badge-row">
+      <span class="badge">Node.js</span>
+      <span class="badge">React</span>
+      <span class="badge">MySQL</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       USER GUIDE
+  ══════════════════════════════════════════ -->
+  <div class="anchor" id="user-guide"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Getting Started</div>
+    <h2>User Guide</h2>
+
+    <p>
+      This guide documents all functionality of the Shared Shopping Lists web application.
+      The interface is designed to be intuitive, providing a streamlined experience for
+      creating, editing, and sharing grocery lists across devices.
+    </p>
+
+    <h3>Login &amp; Registration</h3>
+    <p>
+      When you first open the application you will be presented with a combined
+      login / registration screen. Enter your email and password to sign in, or
+      switch to the <strong>Register</strong> tab to create a new account.
+      No confirmation email is required, and passwords are stored as bcrypt hashes —
+      your plaintext password is never persisted.
+    </p>
+
+    <img src="login-page.webp" alt="Login and registration screen" class="doc-img" />
+    <p class="img-caption">Login / Registration screen</p>
+
+    <h3>Main Application</h3>
+    <p>After a successful login you land on the main application screen:</p>
+
+    <img src="main-page.webp" alt="Main application screen" class="doc-img" />
+    <p class="img-caption">Main application screen — numbered callouts described below</p>
+
+    <ol>
+      <li>
+        <strong>User email &amp; logout button.</strong> Displays the email of the currently
+        logged-in user. Clicking <em>Logout</em> ends the session and returns you to the
+        login screen.
+      </li>
+      <li>
+        <strong>List creation field.</strong> Type a name and click <em>Create a list</em>
+        (or press <kbd>Enter</kbd>) to create a new shopping list.
+      </li>
+      <li>
+        <strong>Your lists.</strong> All lists you own. Click a list to open it; use the
+        <strong>✏️</strong> button to rename it or <strong>🗑️</strong> to delete it permanently.
+      </li>
+      <li>
+        <strong>Lists shared with me.</strong> Lists other users have shared with you.
+        Click a list to view it (editing access depends on the permission granted by the owner).
+      </li>
+      <li>
+        <strong>Items in the selected list.</strong> Toggle an item's purchased status with its
+        checkbox, edit name/quantity with <strong>✏️</strong>, or remove it with <strong>🗑️</strong>.
+        Purchased items are visually struck through.
+      </li>
+      <li>
+        <strong>Item creation field.</strong> Enter a name and an optional quantity (free text —
+        e.g. <em>"1 kg"</em>, <em>"a dozen"</em>). Click <em>Add</em> or press <kbd>Enter</kbd>.
+        This section is hidden when viewing a shared list without edit access.
+      </li>
+      <li>
+        <strong>List sharing field.</strong> Enter another user's email address, optionally check
+        <em>Can edit?</em>, and click <em>Share</em>. The field is hidden for shared lists
+        (only owners can share).
+      </li>
+      <li>
+        <strong>Users with access.</strong> Lists every collaborator and their permission level.
+        Click <em>Revoke access</em> to remove a user. Hidden when viewing a shared list.
+      </li>
+    </ol>
+
+    <h3>Error Notifications</h3>
+    <p>
+      Disallowed operations — such as sharing a list with its own owner — trigger a
+      standard browser alert notification.
+    </p>
+    <img src="notification.webp" alt="Browser error notification" class="doc-img" style="max-width:420px;" />
+    <p class="img-caption">Example browser error notification</p>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       DEVELOPMENT DOCUMENTATION — wrapper
+  ══════════════════════════════════════════ -->
+  <div class="anchor" id="dev-docs"></div>
+  <div class="section-divider"></div>
+
+  <!-- ── Frontend ── -->
+  <div class="anchor" id="dev-frontend"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Development Documentation</div>
+    <h2>Frontend</h2>
+
+    <p>
+      The frontend is a single-page application (SPA) built with <strong>no frameworks or
+      build tools</strong>. It communicates with the REST backend via the Fetch API, stores
+      a JWT in <code>localStorage</code>, and dynamically renders all UI from plain JavaScript.
+      Two views exist: the <em>Auth Section</em> and the <em>Main App</em>.
+    </p>
+
+    <h3>File Structure</h3>
+
+    <div class="file-tree">
+      <span class="dir">front/</span><br>
+      ├── <span class="file">index.html</span><br>
+      ├── <span class="file">app.js</span><br>
+      └── <span class="file">styles.css</span>
+    </div>
+
+    <p>
+      The HTML file defines two top-level regions toggled by authentication state:
+    </p>
+
+    <div class="file-tree">
+      <span class="dir">#authSection</span>     <span class="note"># Shown when no token is present</span><br>
+      └── <span class="dir">.auth-container</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">#loginForm</span>     <span class="note"># Email + password → login</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">#registerForm</span>  <span class="note"># Email + password → register</span><br>
+      <br>
+      <span class="dir">#mainApp</span>          <span class="note"># Shown after successful auth</span><br>
+      ├── <span class="dir">.sidebar</span>      <span class="note"># List creation + list browser</span><br>
+      └── <span class="dir">.main-content</span> <span class="note"># Active list view, items, share panel</span>
+    </div>
+
+    <h3>Application State</h3>
+    <p>Three module-level variables manage runtime state:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variable</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>currentToken</td><td>string | null</td><td>JWT retrieved from <code>localStorage</code> on page load.</td></tr>
+          <tr><td>currentUser</td><td>{ id, email } | null</td><td>Decoded user object containing id and email.</td></tr>
+          <tr><td>currentListId</td><td>number | null</td><td>ID of the currently selected shopping list.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      On page load, if a token exists in <code>localStorage</code>, the app decodes it with
+      <code>atob</code>, restores <code>currentUser</code>, and transitions directly to the
+      main view — skipping the auth screen.
+    </p>
+
+    <h3>Core Helper — <code>apiCall(endpoint, options)</code></h3>
+    <p>
+      A centralised <code>async</code> wrapper around <code>fetch</code> used by every
+      backend-communicating function. It automatically attaches
+      <code>Content-Type: application/json</code> and the
+      <code>Authorization: Bearer &lt;token&gt;</code> header, calls <code>logout()</code>
+      on a <code>401 Unauthorized</code> response, and re-throws the server's
+      <code>error</code> field for non-<code>ok</code> responses. All requests target
+      <code>http://localhost:3000/api</code>.
+    </p>
+
+    <h3>Authentication</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>register(email, password)</td><td>POSTs to <code>/auth/register</code>. On success, stores the JWT and transitions to the main app. Errors appear in <code>#registerError</code>.</td></tr>
+          <tr><td>login(email, password)</td><td>POSTs to <code>/auth/login</code>. Same flow as <code>register</code>; errors written to <code>#loginError</code>.</td></tr>
+          <tr><td>logout()</td><td>Clears all state, removes the token from <code>localStorage</code>, shows the auth screen, and resets all input fields.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>List Management</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>loadLists()</td><td>Fetches all lists from <code>GET /lists</code> and passes <code>ownedLists</code> and <code>sharedLists</code> arrays to <code>displayLists()</code>.</td></tr>
+          <tr><td>displayLists(ownedLists, sharedLists)</td><td>Clears and re-renders the <code>#ownedLists</code> and <code>#sharedLists</code> sidebar containers.</td></tr>
+          <tr><td>createListElement(list, role)</td><td>Builds a <code>.list-item</code> div; renders ✏️ and 🗑️ buttons only when <code>role === 'owner'</code>.</td></tr>
+          <tr><td>createList(name)</td><td>POSTs to <code>POST /lists</code>, then reloads the sidebar.</td></tr>
+          <tr><td>selectList(listId)</td><td>Sets <code>currentListId</code>, loads items and shared users, updates sidebar highlight, and shows <code>#shareSection</code> for owners only.</td></tr>
+          <tr><td>editList(listId, currentName)</td><td>Prompts for a new name via <code>window.prompt</code>, then sends <code>PUT /lists/:id</code> and reloads the view.</td></tr>
+          <tr><td>deleteList(listId)</td><td>Confirms deletion, sends <code>DELETE /lists/:id</code>. Clears content area if the deleted list was selected.</td></tr>
+          <tr><td>getListInfo(listId)</td><td>Fetches all lists and returns the single matching object. Used internally to determine the current user's role.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Item Management</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>loadListItems(listId)</td><td>Fetches items from <code>GET /lists/:id/items</code>, renders them, and updates the <code>#selectedListInfo</code> header.</td></tr>
+          <tr><td>displayItems(items)</td><td>Clears and re-renders <code>#listItems</code>. Purchased items receive the <code>purchased</code> CSS class.</td></tr>
+          <tr><td>addItem(name, quantity)</td><td>Validates name is non-empty, POSTs to <code>POST /items</code>, reloads the list.</td></tr>
+          <tr><td>togglePurchased(itemId, isPurchased)</td><td>Sends <code>PUT /items/:id</code> with <code>{ is_purchased: 0|1 }</code> and reloads the list. Exposed on <code>window</code>.</td></tr>
+          <tr><td>editItem(itemId, currentName, currentQuantity)</td><td>Renders a modal overlay with name and quantity inputs. Saves with <code>PUT /items/:id</code>. Exposed on <code>window</code>.</td></tr>
+          <tr><td>deleteItem(itemId)</td><td>Confirms deletion, sends <code>DELETE /items/:id</code>, reloads the list. Exposed on <code>window</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Sharing</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>shareList(email, canEdit)</td><td>Validates email, POSTs <code>{ shopping_list_id, email, can_edit }</code> to <code>POST /share</code>, reloads collaborator list.</td></tr>
+          <tr><td>loadSharedUsers(listId)</td><td>Fetches collaborators from <code>GET /share/:listId</code> and passes them to <code>displaySharedUsers()</code>.</td></tr>
+          <tr><td>displaySharedUsers(users)</td><td>Renders each collaborator in <code>#sharedUsersList</code> with email, permission level, and a revoke button.</td></tr>
+          <tr><td>removeShare(userId)</td><td>Confirms, sends <code>DELETE /share/:listId/:userId</code>, reloads the collaborator list. Exposed on <code>window</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>UI Helpers &amp; Event Listeners</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>showMainApp()</td><td>Hides <code>#authSection</code>, shows <code>#mainApp</code>, sets the <code>#userEmail</code> display text.</td></tr>
+          <tr><td>escapeHtml(text)</td><td>Sanitises strings before <code>innerHTML</code> insertion via a temporary <code>div</code>'s <code>textContent</code>, preventing XSS.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      All static interactions are wired via <code>addEventListener</code> at the bottom of
+      <code>app.js</code>. Inline <code>onclick</code> attributes appear only on dynamically
+      generated list and item rows.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Event</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>#loginBtn</td><td>click</td><td>Calls <code>login()</code></td></tr>
+          <tr><td>#registerBtn</td><td>click</td><td>Calls <code>register()</code></td></tr>
+          <tr><td>#logoutBtn</td><td>click</td><td>Calls <code>logout()</code></td></tr>
+          <tr><td>#createListBtn</td><td>click</td><td>Calls <code>createList()</code></td></tr>
+          <tr><td>#addItemBtn</td><td>click</td><td>Calls <code>addItem()</code></td></tr>
+          <tr><td>#shareBtn</td><td>click</td><td>Calls <code>shareList()</code></td></tr>
+          <tr><td>#newListName</td><td>keypress</td><td>Calls <code>createList()</code> on Enter</td></tr>
+          <tr><td>#newItemName / #newItemQuantity / #shareEmail</td><td>keypress</td><td>Calls respective function on Enter</td></tr>
+          <tr><td>.tab-btn (all)</td><td>click</td><td>Switches the active auth form tab</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Backend ── -->
+  <div class="anchor" id="dev-backend"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Development Documentation</div>
+    <h2>Backend</h2>
+
+    <p>
+      The backend is a modular <strong>Express.js</strong> application that separates routing,
+      database connectivity, and security middleware into distinct files.
+    </p>
+
+    <h3>File Structure</h3>
+    <div class="file-tree">
+      ├── <span class="file">server.js</span>          <span class="note"># Entry point: initializes Express, middleware, and routes</span><br>
+      ├── <span class="file">db.js</span>               <span class="note"># Database configuration: MySQL pool connection</span><br>
+      ├── <span class="dir">middleware/</span><br>
+      │&nbsp;&nbsp;&nbsp;└── <span class="file">auth.js</span>         <span class="note"># JWT Authentication middleware</span><br>
+      ├── <span class="dir">routes/</span><br>
+      │&nbsp;&nbsp;&nbsp;├── <span class="file">auth.js</span>         <span class="note"># User registration and login handlers</span><br>
+      │&nbsp;&nbsp;&nbsp;├── <span class="file">lists.js</span>        <span class="note"># Shopping list management (CRUD and item fetching)</span><br>
+      │&nbsp;&nbsp;&nbsp;├── <span class="file">items.js</span>        <span class="note"># Individual item management within lists</span><br>
+      │&nbsp;&nbsp;&nbsp;└── <span class="file">share.js</span>        <span class="note"># Collaborative features (sharing lists with other users)</span><br>
+      └── <span class="file">.env</span>               <span class="note"># Environment variables (DB credentials, JWT secret)</span>
+    </div>
+
+    <h3>Authentication &amp; Security</h3>
+    <ul>
+      <li><strong>Password Hashing:</strong> Uses <code>bcryptjs</code> to hash passwords before storing them in the database.</li>
+      <li><strong>JWT Issuance:</strong> Upon successful login or registration, a JSON Web Token is generated with a 7-day validity period.</li>
+      <li><strong>Request Protection:</strong> The <code>authenticateToken</code> middleware verifies the <code>Authorization: Bearer &lt;token&gt;</code> header on all protected routes.</li>
+    </ul>
+
+    <h3>Permission System</h3>
+    <p>The API implements a tiered permission model for collaborative shopping:</p>
+
+    <div class="perm-grid">
+      <div class="perm-card owner">
+        <div class="perm-title">Owner</div>
+        <ul>
+          <li>Read list</li>
+          <li>Rename / delete list</li>
+          <li>Manage items</li>
+          <li>Share / unshare</li>
+        </ul>
+      </div>
+      <div class="perm-card editor">
+        <div class="perm-title">Editor <code style="font-size:11px;">can_edit = 1</code></div>
+        <ul>
+          <li>Add, update, delete items</li>
+          <li>Rename the list</li>
+        </ul>
+      </div>
+      <div class="perm-card viewer">
+        <div class="perm-title">Viewer <code style="font-size:11px;">can_edit = 0</code></div>
+        <ul>
+          <li>View the list</li>
+          <li>Toggle <code>is_purchased</code></li>
+          <li>Cannot delete items or edit details</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>API Reference</h3>
+
+    <h4>Auth Module — <code>/api/auth</code></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>POST</td><td>/register</td><td>Creates a new user. Body: <code>{ email, password }</code>.</td></tr>
+          <tr><td>POST</td><td>/login</td><td>Authenticates user. Returns JWT and user object.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Lists Module — <code>/api/lists</code></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>GET</td><td>/</td><td>Retrieves all lists owned by or shared with the user.</td></tr>
+          <tr><td>POST</td><td>/</td><td>Creates a new list. Body: <code>{ name }</code>.</td></tr>
+          <tr><td>PUT</td><td>/:id</td><td>Renames a list (Owner or Editor only).</td></tr>
+          <tr><td>DELETE</td><td>/:id</td><td>Deletes a list (Owner only).</td></tr>
+          <tr><td>GET</td><td>/:id/items</td><td>Fetches all items belonging to a specific list.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Items Module — <code>/api/items</code></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>POST</td><td>/</td><td>Adds item to list. Body: <code>{ shopping_list_id, name, quantity }</code>.</td></tr>
+          <tr><td>PUT</td><td>/:id</td><td>Updates item (name, quantity, or <code>is_purchased</code>).</td></tr>
+          <tr><td>DELETE</td><td>/:id</td><td>Removes item from list.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Sharing Module — <code>/api/share</code></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>POST</td><td>/</td><td>Shares a list. Body: <code>{ shopping_list_id, email, can_edit }</code>.</td></tr>
+          <tr><td>GET</td><td>/:listId</td><td>Returns users the shopping list is shared with.</td></tr>
+          <tr><td>DELETE</td><td>/:listId/:userId</td><td>Revokes access for a specific user.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Database ── -->
+  <div class="anchor" id="dev-database"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Development Documentation</div>
+    <h2>Database</h2>
+
+    <p>
+      The application uses a <strong>MySQL</strong> relational database comprised of four tables.
+      Below is the EER diagram followed by descriptions of each table and their relationships.
+    </p>
+
+    <h3>EER Diagram</h3>
+    <img src="image-20260426-063719.png" alt="EER Diagram" class="doc-img" />
+    <p class="img-caption">Entity-Relationship diagram of the database schema</p>
+
+    <h3>Tables</h3>
+
+    <h4><code>users</code></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>INT</td><td>Primary key. Auto-incremented unique identifier.</td></tr>
+          <tr><td>email</td><td>VARCHAR(255)</td><td>The user's email address. Used as login credential; must be unique.</td></tr>
+          <tr><td>password_hash</td><td>VARCHAR(255)</td><td>bcrypt hash of the user's password. Plaintext is never stored.</td></tr>
+          <tr><td>created_at</td><td>TIMESTAMP</td><td>Timestamp of account creation.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4><code>shopping_lists</code></h4>
+    <p>Represents a shopping list owned by a user.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>INT</td><td>Primary key. Auto-incremented unique identifier.</td></tr>
+          <tr><td>owner_id</td><td>INT</td><td>Foreign key → <code>users.id</code>. The user who owns the list.</td></tr>
+          <tr><td>name</td><td>VARCHAR(255)</td><td>Display name of the shopping list.</td></tr>
+          <tr><td>created_at</td><td>TIMESTAMP</td><td>Timestamp of list creation.</td></tr>
+          <tr><td>updated_at</td><td>TIMESTAMP</td><td>Timestamp of the most recent update to the list record.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4><code>list_items</code></h4>
+    <p>Represents an individual item within a shopping list.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>INT</td><td>Primary key. Auto-incremented unique identifier.</td></tr>
+          <tr><td>shopping_list_id</td><td>INT</td><td>Foreign key → <code>shopping_lists.id</code>. The list this item belongs to.</td></tr>
+          <tr><td>name</td><td>VARCHAR(255)</td><td>Display name of the item (e.g. "Milk", "Bread").</td></tr>
+          <tr><td>quantity</td><td>VARCHAR(100)</td><td>Free-text quantity descriptor (e.g. "2", "1 kg", "a dozen"). Defaults to <code>1</code>.</td></tr>
+          <tr><td>is_purchased</td><td>TINYINT(1)</td><td>Boolean flag. <code>1</code> = checked off; <code>0</code> = still needed.</td></tr>
+          <tr><td>created_at</td><td>TIMESTAMP</td><td>Timestamp of when the item was added.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4><code>shared_lists</code></h4>
+    <p>Junction table tracking which users have been granted access to lists they do not own.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>id</td><td>INT</td><td>Primary key. Auto-incremented unique identifier.</td></tr>
+          <tr><td>shopping_list_id</td><td>INT</td><td>Foreign key → <code>shopping_lists.id</code>. The list being shared.</td></tr>
+          <tr><td>shared_with_user_id</td><td>INT</td><td>Foreign key → <code>users.id</code>. The user granted access.</td></tr>
+          <tr><td>can_edit</td><td>TINYINT(1)</td><td>Permission flag. <code>1</code> = editor; <code>0</code> = view-only (may only toggle <code>is_purchased</code>).</td></tr>
+          <tr><td>shared_at</td><td>TIMESTAMP</td><td>Timestamp of when access was granted.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Relationships</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Relationship</th><th>Cardinality</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>users → shopping_lists (owner_id)</td><td>One-to-many</td><td>A user can own many lists; each list has exactly one owner.</td></tr>
+          <tr><td>shopping_lists → list_items</td><td>One-to-many</td><td>A list can contain many items; each item belongs to one list.</td></tr>
+          <tr><td>shopping_lists → shared_lists</td><td>One-to-many</td><td>A list can be shared with multiple users via sharing records.</td></tr>
+          <tr><td>users → shared_lists (shared_with_user_id)</td><td>One-to-many</td><td>A user can appear in many sharing records across different lists.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Development Environment ── -->
+  <div class="anchor" id="dev-environment"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Development Documentation</div>
+    <h2>Development Environment</h2>
+
+    <h3>Architecture</h3>
+    <img src="image-20260426-065755.png" alt="Development environment architecture diagram" class="doc-img" />
+    <p class="img-caption">Hybrid Local-Remote architecture overview</p>
+
+    <p>
+      The environment uses a <strong>Hybrid Local-Remote</strong> setup. Application logic
+      (web server / React) runs on each developer's local machine for maximum performance,
+      while the data persistence layer is centralised to ensure consistency across the team.
+    </p>
+
+    <h3>Infrastructure Components</h3>
+    <ul>
+      <li><strong>Local Environment:</strong> Individual workstations running the application stack (React, Node.js, etc.).</li>
+      <li><strong>VPN Gateway:</strong> A secure WireGuard entry point that bridges the local machine to the private development network.</li>
+      <li><strong>Remote Dev Environment:</strong> A containerised or cloud-based environment hosting the Shared MySQL database.</li>
+    </ul>
+
+    <h3>Connectivity &amp; Access</h3>
+    <p>To interact with shared resources:</p>
+    <ol>
+      <li><strong>VPN Connection:</strong> Connect via the WireGuard VPN Server. This assigns your local machine an internal IP within the Development Environment subnet.</li>
+      <li><strong>Database Access:</strong> Once connected, the Shared DB is reachable via its internal address (e.g. <code>dev-db.internal</code> or a private IP).</li>
+    </ol>
+
+    <h3>Development Workflow</h3>
+    <ol>
+      <li><strong>Local Setup:</strong> Clone the repository and install dependencies locally.</li>
+      <li><strong>Configuration:</strong> Update your local <code>.env</code> file to point the database host at the Shared DB address.</li>
+      <li><strong>Start Services:</strong> Run <code>npm start</code>. The app serves the UI from <code>localhost</code> but persists data to the remote MySQL instance.</li>
+      <li><strong>Data Synchronisation:</strong> Since the DB is shared, any migrations or data changes are immediately visible to the entire team.</li>
+    </ol>
+
+    <h3>Git Repository</h3>
+    <div class="callout">
+      <strong>Repository:</strong>
+      <a href="https://github.com/sokolovpav/se1.git" target="_blank">https://github.com/sokolovpav/se1.git</a>
+    </div>
+
+    <h3>VPN Setup — WireGuard</h3>
+    <ol>
+      <li>
+        Download and install WireGuard from
+        <a href="https://www.wireguard.com/install/" target="_blank">wireguard.com/install</a>.
+      </li>
+      <li>
+        Import the tunnel configuration from file.
+        <img src="image-20260201-195221.png" alt="WireGuard: Import tunnel from file" class="doc-img" style="max-width:480px;margin-top:12px;" />
+      </li>
+      <li>
+        Activate the tunnel.
+        <img src="image-20260201-195417.png" alt="WireGuard: Activate tunnel" class="doc-img" style="max-width:480px;margin-top:12px;" />
+      </li>
+    </ol>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       USER STORIES
+  ══════════════════════════════════════════ -->
+  <div class="anchor" id="user-stories"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Project</div>
+    <h2>User Stories</h2>
+
+    <h3>Story 1 — List Synchronisation Across Devices</h3>
+    <p>
+      The user wants a digital shopping list that is accessible from both their phone and PC.
+      The default Notes app on most phones doesn't synchronise across devices. Cross-platform
+      alternatives (Obsidian, Google Docs) either require a subscription, server setup, or
+      aren't focused on simple list-keeping.
+    </p>
+    <p>
+      With this web application, synchronisation is automatic — the user logs into the same
+      account from any device and their lists are immediately available with no additional setup.
+    </p>
+
+    <h3>Story 2 — Shared Lists Between Roommates</h3>
+    <p>
+      The user shares a household with roommates and currently coordinates shopping lists via
+      a messenger chat. This approach is unreliable: messages get lost among other conversations
+      and it becomes difficult to track which items have already been purchased, leading to
+      duplicates or missed items.
+    </p>
+    <p>
+      The application resolves both issues. It is dedicated solely to shopping list management,
+      and shared lists keep purchase status synchronised in real time for all collaborators —
+      so every roommate always sees what has been bought and what still needs to be picked up.
+    </p>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       KERNEL ANALYSIS
+  ══════════════════════════════════════════ -->
+  <div class="anchor" id="kernel"></div>
+  <section class="doc-section">
+    <div class="section-eyebrow">Project</div>
+    <h2>Kernel Analysis</h2>
+
+	<p>
+      The Kernel is expected to be revisited soon and expanded, considering the latest developments of the project.
+    </p>
+	
+    <p>
+      The following Kernel Analysis tracks project progress across the three SEMAT areas:
+      <strong>Customer</strong>, <strong>Solution</strong>, and <strong>Endeavor</strong>.
+    </p>
+
+    <!-- ── CUSTOMER ── -->
+    <h3>Area: Customer</h3>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Stakeholders
+        <span class="progress-pill">4 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Recognised</h4>
+          <ul>
+            <li>Stakeholder group identified: people who want to organise and share grocery lists with family or roommates.</li>
+            <li>Both developers and the roommates of one developer represent the key stakeholder group.</li>
+            <li>Responsibilities defined: Kanban work model adopted; Oleksandr focuses primarily on documentation.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Represented</h4>
+          <ul>
+            <li>Both developers have agreed to take on tasks from the Kanban board.</li>
+            <li>Collaboration tools: Telegram for communication; Jira Kanban for task tracking.</li>
+            <li>Way of working respected by all stakeholder representatives.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 3 — Involved</h4>
+          <ul>
+            <li>Testing will involve both developers and roommates of one developer as representatives of the key stakeholder group.</li>
+            <li>Feedback delays are not expected, since all testing parties are either developers or their close contacts.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 4 — In Agreement</h4>
+          <ul>
+            <li>Minimal expectations agreed: browser-based app with grocery list creation and sharing.</li>
+            <li>All feedback from testing will be taken into account.</li>
+            <li>Functionality and reliability take priority over UI aesthetics.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 5 — Satisfied for Deployment: not yet reached. The application is not fully developed.</div>
+      </div>
+    </div>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Opportunity
+        <span class="progress-pill">4 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Identified</h4>
+          <ul>
+            <li>Core concept clear: a grocery list sharing web application.</li>
+            <li>Developers invest time as the primary stakeholders.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Solution Needed</h4>
+          <ul>
+            <li>Solution identified: building a web application.</li>
+            <li>Need confirmed: study project requirement + personal use case.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 3 — Value Established</h4>
+          <ul>
+            <li>Success criteria: finish the project before 16 May 2026.</li>
+            <li>Outcome: a usable, feature-complete grocery list web application.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 4 — Viable</h4>
+          <ul>
+            <li>Project plan created by Pavel including service, architecture, and database diagrams.</li>
+            <li>Risks acceptable: Oleksandr's limited web dev experience is mitigated by Pavel's expertise.</li>
+            <li>Development has begun.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 5 — Addressed: not yet reached. Development hasn't progressed this far.</div>
+      </div>
+    </div>
+
+    <!-- ── SOLUTION ── -->
+    <h3>Area: Solution</h3>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Requirements
+        <span class="progress-pill">3 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Conceived</h4>
+          <ul>
+            <li>Both developers have agreed to produce the application.</li>
+            <li>Users identified: people wanting to organise and share grocery lists.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Bounded</h4>
+          <ul>
+            <li>System purpose agreed: a web application for creating and sharing grocery lists.</li>
+            <li>Constraints: must run on modern phones and PCs in a browser.</li>
+            <li>Conflict resolved: sharing to existing accounts rather than sending email invites.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 3 — Coherent</h4>
+          <ul>
+            <li>Essential features: Create list → Edit list → Share list → Track item status.</li>
+            <li>Priorities clear: database and backend complete before frontend.</li>
+            <li>Any scope expansion is likely to be declined to protect the study project deadline.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 4 — Acceptable: not yet reached. Testing criteria are not yet established.</div>
+      </div>
+    </div>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Software System
+        <span class="progress-pill">2 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Architecture Selected</h4>
+          <ul>
+            <li>Technology stack: MySQL + Node.js + React.</li>
+            <li>Backend (Node.js) and frontend (React) handled separately.</li>
+            <li>Sharing via existing accounts only — no email invitations.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Demonstrable</h4>
+          <ul>
+            <li>Database successfully initialised; backend connects to it.</li>
+            <li>Backend fully functional and testable via Bruno; tests passed within reasonable time.</li>
+            <li>Frontend launches, albeit with incomplete functionality.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 3 — Usable: not yet reached. Frontend functionality is not yet complete.</div>
+      </div>
+    </div>
+
+    <!-- ── ENDEAVOR ── -->
+    <h3>Area: Endeavor</h3>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Team
+        <span class="progress-pill">3 / 5 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Seeded</h4>
+          <ul>
+            <li>Mission: build a web application for making and sharing grocery lists.</li>
+            <li>Composition: 2 developers (1 technical-focused, 1 documentation-focused).</li>
+            <li>Governance: Pavel has final say on technical aspects; flat hierarchy otherwise.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Formed</h4>
+          <ul>
+            <li>Pavel and Oleksandr onboarded; roles understood and accepted.</li>
+            <li>Kickoff call held; GitHub repository set up; first tickets assigned.</li>
+            <li>Communication: Telegram for chat/calls; Jira for task tracking.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 3 — Collaborating</h4>
+          <ul>
+            <li>Workflow progressing without notable delays from either developer.</li>
+            <li>Issues and tasks discussed openly on calls.</li>
+            <li>Team members know each other's capabilities and limitations.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 4 — Performing: currently in progress.</div>
+      </div>
+    </div>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Work
+        <span class="progress-pill">3 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Initiated</h4>
+          <ul>
+            <li>Required result: functional web application with list creation and sharing.</li>
+            <li>Deadline: 16 May 2026. No financial funding (study project).</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 2 — Prepared</h4>
+          <ul>
+            <li>Effort estimated at roughly a few full working days.</li>
+            <li>Acceptance criteria: a grocery list can be created and shared with another user.</li>
+            <li>Kanban board established; initial database design tasks completed.</li>
+          </ul>
+        </div>
+        <div class="kernel-state">
+          <h4>State 3 — Started</h4>
+          <ul>
+            <li>First commit pushed to GitHub.</li>
+            <li>Kanban board active; tasks moving through In Progress → Done.</li>
+            <li>Definition of done: a functional web app with list creation and sharing.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 4 — Under Control: not yet reached.</div>
+      </div>
+    </div>
+
+    <div class="kernel-alpha">
+      <div class="kernel-alpha-header">
+        Alpha: Way of Working
+        <span class="progress-pill">1 / 6 states</span>
+      </div>
+      <div class="kernel-alpha-body">
+        <div class="kernel-state">
+          <h4>State 1 — Principles Established</h4>
+          <ul>
+            <li>Team agrees to peer-review each other's progress.</li>
+            <li>Tools agreed: Git, Jira, Telegram, IDE of each developer's choice.</li>
+            <li>Approach: Kanban; remote asynchronous work; GitHub free tier constraints observed.</li>
+          </ul>
+        </div>
+        <div class="stopped-notice">State 2 — Foundation Established: not yet reached. Most practices are not yet formalised.</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <strong>Note:</strong> Issues reflected in this Kernel Analysis are primarily due to the application not being sufficiently developed at the time of writing.
+      <br><br>
+      <strong>AI Usage:</strong> No generative AI was used in the project. Grammarly was used to check for spelling mistakes.
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Active nav highlight on scroll ── -->
+<script>
+  const sections = document.querySelectorAll('.anchor');
+  const navLinks = document.querySelectorAll('#sidenav a');
+
+  const idToLink = {};
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href').slice(1);
+    idToLink[href] = link;
+  });
+
+  function updateActive() {
+    let current = null;
+    sections.forEach(sec => {
+      const top = sec.getBoundingClientRect().top;
+      if (top <= 40) current = sec.id;
+    });
+    navLinks.forEach(l => l.classList.remove('active'));
+    if (current && idToLink[current]) idToLink[current].classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
 </body>
 </html>
