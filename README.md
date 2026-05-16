@@ -18,7 +18,9 @@ The application is designed to be simple and dependency-free on the client side:
 
 ## Documentation
 
-{I'll add the documentation links here soon.}
+https://sokolovpav.github.io/se1/
+
+The documentation includes User Guide, Development Documentation covering Frontend, Backend, Database and Development Environment, User Stories, Kernel Analysis, Feasibility Analysis, and Project Requirements.
  
 ## Getting Started
 
