@@ -33,6 +33,7 @@ The documentation includes User Guide, Development Documentation covering Fronte
 ```bash
 # Clone the repository
 git clone https://github.com/sokolovpav/se1.git
+cd se1
 cd back
  
 # Install backend dependencies
